@@ -280,23 +280,40 @@ namespace KYPopulationGrowth
         //Search for population data for a specific year
         public static void FindData(List<PopulationBySex> fileContents)
         {
-            Console.Write("\n\tEnter the Year you want to see Data : ");
-            string stringYear = Console.ReadLine();
-            int year = Int32.Parse(stringYear);
+            int minYear = GetMinYear(fileContents);
+            int maxYear = GetMaxYear(fileContents);
+            int year;
+            while (true)
+            {
+                Console.Write("\n\tEnter Year Between {0}-{1} : ", minYear, maxYear);
+                string stringYear = Console.ReadLine();
+                if (int.TryParse(stringYear, out year))
+                {
+                    if (year >= minYear && year <= maxYear)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Out of Range, please select year between {0}-{1}", minYear, maxYear);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Out of Range, please select year between {0}-{1}", minYear, maxYear);
+                }
+
+            }
 
             var data = (from x in fileContents
                         where x.Year == year
                         select new
                         {
                             Year = x.Year,
-                            Males = x.Males
-                        ,
-                            Females = x.Females
-                        ,
-                            Total = x.getTotal()
-                        ,
-                            MalePercetages = x.GetMalePercent()
-                        ,
+                            Males = x.Males,
+                            Females = x.Females,
+                            Total = x.getTotal(),
+                            MalePercetages = x.GetMalePercent(),
                             FemalePercentage = x.GetFemalePercent()
                         })
                         .FirstOrDefault();
@@ -345,6 +362,26 @@ namespace KYPopulationGrowth
                 fileContents.RemoveAll(y => y.Year == year);
             }
 
+        }
+
+        public static int GetMinYear(List<PopulationBySex> fileContents)
+        {
+            var year = (from x in fileContents
+                           orderby x.Year
+                           select new { MinYear = x.Year })
+                          .Take(1)
+                          .FirstOrDefault();
+            return year.MinYear;
+        }
+
+        public static int GetMaxYear(List<PopulationBySex> fileContents)
+        {
+            var year = (from x in fileContents
+                           orderby x.Year descending
+                           select new { MaxYear = x.Year })
+                              .Take(1)
+                              .FirstOrDefault();
+            return year.MaxYear;
         }
 
         public static void DrawWelcome()
