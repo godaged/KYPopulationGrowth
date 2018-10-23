@@ -244,37 +244,53 @@ namespace KYPopulationGrowth
         //Add latest population data to missing years
         public static void AddLatestData(List<PopulationBySex> fileContents)
         {
-            var population = new PopulationBySex();
+            var population = new PopulationBySex();           
+            int maxYear = GetMaxYear(fileContents);
 
             int outParameter;
-            string year;
+            int year = maxYear + 1; 
             //Console.WriteLine("\n\tEnter Latest Data to the File");
-            Console.Write("\t Year : ");
-            year = Console.ReadLine();
-            if (int.TryParse(year, out outParameter))
+            Console.WriteLine("\t Year : {0}", year);
+            //year = Console.ReadLine();
+            //if (int.TryParse(year, out outParameter))
+            //{
+                population.Year = year;
+            //}
+            while (true)
             {
-                population.Year = outParameter;
+                //string males;
+                Console.Write("\t Males : ");
+                string males = Console.ReadLine();
+                if (int.TryParse(males, out outParameter))
+                {
+                    population.Males = outParameter;
+                }
+                else
+                {
+                    Console.WriteLine("\tInvalid Entry, please enter valid population value");
+                }
+
+                //string females;
+                Console.Write("\t Females : ");
+                string females = Console.ReadLine();
+                if (int.TryParse(females, out outParameter))
+                {
+                    population.Females = outParameter;
+                }
+                else
+                {
+                    Console.WriteLine("\tInvalid Entry, please enter valid population value");
+                }
+                if (population.Males > 0 && population.Females > 0)
+                {
+                    break;
+                }
             }
 
-            string males;
-            Console.Write("\t Males : ");
-            males = Console.ReadLine();
-            if (int.TryParse(males, out outParameter))
-            {
-                population.Males = outParameter;
-            }
+                fileContents.Add(population);
 
-            string females;
-            Console.Write("\t Females : ");
-            females = Console.ReadLine();
-            if (int.TryParse(females, out outParameter))
-            {
-                population.Females = outParameter;
-            }
-
-            fileContents.Add(population);
-
-            Console.WriteLine("\n\tFollowing Data added to the Population data \n\t Year : {0} \n\t Males : {1} \n\t Females : {2}", year, males, females);
+                Console.WriteLine("\n\tFollowing Data added to the Population data \n\t Year : {0} \n\t Males : {1} \n\t Females : {2}", year, population.Males, population.Females);
+            
         }
 
         //Search for population data for a specific year
@@ -295,12 +311,12 @@ namespace KYPopulationGrowth
                     }
                     else
                     {
-                        Console.WriteLine("Out of Range, please select year between {0}-{1}", minYear, maxYear);
+                        Console.WriteLine("\tOut of Range, please select year between {0}-{1}", minYear, maxYear);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Out of Range, please select year between {0}-{1}", minYear, maxYear);
+                    Console.WriteLine("\tInvalid Option, please select year between {0}-{1}", minYear, maxYear);
                 }
 
             }
@@ -353,13 +369,44 @@ namespace KYPopulationGrowth
         //Delete selected data by year
         public static void DeleteData(List<PopulationBySex> fileContents)
         {
-            Console.Write("\n\tSelect a year to get rid of from data : ");
-            string stringYear = Console.ReadLine();
-            int year;
-            if (Int32.TryParse(stringYear, out year))
+            int minYear = GetMinYear(fileContents);
+            int maxYear = GetMaxYear(fileContents);
+            while (true)
             {
-                //var data = from x in fileContents where x.Year == 2017 select x.Year;
-                fileContents.RemoveAll(y => y.Year == year);
+                Console.Write("\n\tSelect a year to delete from data between {0}-{1} : ", minYear, maxYear);
+                string stringYear = Console.ReadLine();
+                int year;
+                if (Int32.TryParse(stringYear, out year))
+                {
+                    if (year >= minYear && year <= maxYear)
+                    {
+                        var data = (from x in fileContents where x.Year == year select new { MalePopulation = x.Males, FemalePopulation = x.Females }).FirstOrDefault();
+                        
+                        Console.WriteLine("\n\tYear: {0} \t Males : {1} \t Females : {2}", year, data.MalePopulation, data.FemalePopulation);
+                        Console.Write("\tDo you want to delete these data Y/N ?");
+                        string YesNo = Console.ReadLine();
+                        if (YesNo.ToUpper() == "Y")
+                        {
+                            fileContents.RemoveAll(y => y.Year == year);
+                            Console.WriteLine("\t{0} Data deleted from file", year);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\tData not deleted");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tOut of Range, please enter year between {0}-{1}", minYear, maxYear);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\tInvalid Option, please enter year between {0}-{1}", minYear, maxYear);
+                }
+
             }
 
         }
