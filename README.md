@@ -2,8 +2,9 @@
 Code Louisville 2018 Sept C# Project
 
 Analyzing population composition by sex and the growth over the years.
-**Can display population data, composition and yearly growth
-**Can search population in a year
-*Can add latest population data
-*Can delete existing population data
+
+1. Can display population data, composition and yearly growth
+2. Can search population in a year
+3. Can add latest population data
+4. Can delete existing population data
 
