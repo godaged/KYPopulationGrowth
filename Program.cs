@@ -8,21 +8,20 @@ namespace KYPopulationGrowth
     class Program
     {
         //Name of the data file
-        static string file = "Population.txt";
+        const string file = "Population.txt";
+
         static void Main(string[] args)
         {
-            /*
-             *Uncomment following to resize Console Window
-            Console.SetWindowPosition(0, 0);
-            Console.SetWindowSize(Console.LargestWindowWidth/2, Console.LargestWindowHeight);
-            */
+            //resize the console window
+            ConsoleWindow.SetSize();
 
+            //Welcome message
             DrawWelcome();
             Console.Write("Press Any Key to go to MENU");
             Console.ReadKey();
             Console.Clear();
 
-            //Start Menu
+            
             //Menu items
             string fileLocation = "Data File Location ";
             string rawDataDisplay = "Population Numbers By Sex in Kentucky";
@@ -33,9 +32,12 @@ namespace KYPopulationGrowth
             string saveLatestData = "Save Latest Population Data";
             string deleteSelectedData = "Delete Population Data in a Specific Year";
 
-            int option;
+            //Get the data file path and file name
             var fileName = getFileName(file);
+            //Read data from file
             var fileContents = ReadData(fileName);
+
+            //Start Menu, IF option Q selected, it breaks the loop
             while (true)
             {
                 Console.WriteLine("\n\tKeyntucky Population By Sex Since 1990 \n");
@@ -53,8 +55,8 @@ namespace KYPopulationGrowth
                 Console.Write("\n\tSelect Option Number(\"1\" through \"8\" or \"Q\" to Exit) : ");
 
                 //I selected if clause over switch statement
-                string optionString = Console.ReadLine();
-                if (int.TryParse(optionString, out option))
+                string getOption = Console.ReadLine();
+                if (int.TryParse(getOption, out int option))
                 {
                     if (option == 1)
                     {
@@ -64,7 +66,7 @@ namespace KYPopulationGrowth
                     }
                     else if (option == 2)
                     {
-                        //option = 2 => display raw data read from file or saved
+                        //option = 2 => display data read from file
                         Console.WriteLine("\n\t {0}\n", rawDataDisplay);
                         DisplayData(fileContents);
                     }
@@ -101,18 +103,18 @@ namespace KYPopulationGrowth
                     }
                     else if (option == 8)
                     {
-                        //option = 5 => delete selected data by year
+                        //option = 8 => delete selected data by year
                         Console.WriteLine("\n\t {0}\n", deleteSelectedData);
                         DeleteData(fileContents);
                     }
                     else
                     {
-                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select 1 through 8 or \"Q\" to quit", optionString);
+                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" through \"8\" or \"Q\" to quit", getOption);
                     }
                 }
                 else
                 {
-                    if (optionString.ToString().ToUpper() == "Q")
+                    if (getOption.ToString().ToUpper() == "Q")
                     {
                         //Quit from Console App
                         //Console.WriteLine("\n \tThank You and Have a nice day!");
@@ -124,7 +126,7 @@ namespace KYPopulationGrowth
                     else
                     {
                         //user entered bad option or try to hack the app :)
-                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select 1 through 8 or \"Q\" to quit", optionString);
+                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" through \"8\" or \"Q\" to quit", getOption);
                     }
                 }
                 Console.Write("\n \tPress Enter to Continue...");
@@ -134,39 +136,42 @@ namespace KYPopulationGrowth
             //End Menu
         }
 
-        //Start methods
+        //methods
         //get the filename folders
         public static string getFileName(string fileName)
         {
             string currentDirectory = Directory.GetCurrentDirectory();
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
+            //set path and file name and return it
             return Path.Combine(directory.FullName, file);
         }
 
         //Read data from file
         public static List<PopulationBySex> ReadData(string fileName)
         {
+            //create a new object using PopulationBySex class
             var population = new List<PopulationBySex>();
+            //reading data from file
             using (var sr = new StreamReader(fileName))
             {
-                string headerLine = sr.ReadLine();
+                //read header line to skip the header line
+                sr.ReadLine();
                 string line;
-                int year;
-                int males;
-                int females;
+                //read data
                 while ((line = sr.ReadLine()) != null)
                 {
+                    //Instantiate class populationBySex
                     var populationBySex = new PopulationBySex();
                     string[] values = line.Split(',');
-                    if (int.TryParse(values[0], out year))
+                    if (int.TryParse(values[0], out int year))
                     {
                         populationBySex.Year = year;
                     }
-                    if (int.TryParse(values[1], out males))
+                    if (int.TryParse(values[1], out int males))
                     {
                         populationBySex.Males = males;
                     }
-                    if (int.TryParse(values[2], out females))
+                    if (int.TryParse(values[2], out int females))
                     {
                         populationBySex.Females = females;
                     }
@@ -229,15 +234,24 @@ namespace KYPopulationGrowth
                     changeFemales = ((double)item.Females - femalePreviousValue) / item.Females;
                     changeTotal = ((double)item.getTotal() - totalPreviousValue) / item.getTotal();
                 }
-                malePreviousValue = item.Males;
-                femalePreviousValue = item.Females;
-                totalPreviousValue = item.getTotal();
 
-                Console.Write("\t" + item.Year + "\t" +
+                if (malePreviousValue + femalePreviousValue + totalPreviousValue == 0)
+                {
+                    Console.Write("\t" + item.Year + "\t" +
+                    item.Males + "\t " + "-" + "\t\t" +
+                    item.Females + "\t " + "-" + "\t\t" +
+                    item.getTotal() + "\t " + "-" + "\n");
+                }
+                else
+                {
+                    Console.Write("\t" + item.Year + "\t" +
                     item.Males + "\t " + string.Format("{0:0.00%}", changeMales) + "\t\t" +
                     item.Females + "\t " + string.Format("{0:0.00%}", changeFemales) + "\t\t" +
                     item.getTotal() + "\t " + string.Format("{0:0.00%}", changeTotal) + "\n");
-
+                }
+                malePreviousValue = item.Males;
+                femalePreviousValue = item.Females;
+                totalPreviousValue = item.getTotal();
             }
         }
 
@@ -247,43 +261,36 @@ namespace KYPopulationGrowth
             var population = new PopulationBySex();           
             int maxYear = GetMaxYear(fileContents);
 
-            int outParameter;
             int year = maxYear + 1; 
             //Console.WriteLine("\n\tEnter Latest Data to the File");
+
             Console.WriteLine("\t Year : {0}", year);
-            //year = Console.ReadLine();
-            //if (int.TryParse(year, out outParameter))
-            //{
-                population.Year = year;
-            //}
+            population.Year = year;
+
             while (true)
             {
-                //string males;
                 Console.Write("\t Males : ");
                 string males = Console.ReadLine();
-                if (int.TryParse(males, out outParameter))
+
+                if (int.TryParse(males, out int outMales))
                 {
-                    population.Males = outParameter;
-                }
-                else
-                {
-                    Console.WriteLine("\tInvalid Entry, please enter valid population value");
+                    population.Males = outMales;
                 }
 
-                //string females;
                 Console.Write("\t Females : ");
                 string females = Console.ReadLine();
-                if (int.TryParse(females, out outParameter))
+                if (int.TryParse(females, out int outfemales))
                 {
-                    population.Females = outParameter;
+                    population.Females = outfemales;
                 }
-                else
-                {
-                    Console.WriteLine("\tInvalid Entry, please enter valid population value");
-                }
+
                 if (population.Males > 0 && population.Females > 0)
                 {
                     break;
+                }
+                else
+                {
+                    Console.WriteLine("\tInvalid Entry, please enter valid population value");
                 }
             }
 
@@ -296,6 +303,7 @@ namespace KYPopulationGrowth
         //Search for population data for a specific year
         public static void FindData(List<PopulationBySex> fileContents)
         {
+            //Get Min and max year to limit search to existing data range only
             int minYear = GetMinYear(fileContents);
             int maxYear = GetMaxYear(fileContents);
             int year;
@@ -318,26 +326,25 @@ namespace KYPopulationGrowth
                 {
                     Console.WriteLine("\tInvalid Option, please select year between {0}-{1}", minYear, maxYear);
                 }
-
             }
 
             var data = (from x in fileContents
                         where x.Year == year
                         select new
                         {
-                            Year = x.Year,
-                            Males = x.Males,
-                            Females = x.Females,
+                            year = x.Year,
+                            males = x.Males,
+                            females = x.Females,
                             Total = x.getTotal(),
                             MalePercetages = x.GetMalePercent(),
                             FemalePercentage = x.GetFemalePercent()
                         })
                         .FirstOrDefault();
 
-            Console.WriteLine("\n\t Population By Sex in {0} \n", data.Year);
+            Console.WriteLine("\n\t Population By Sex in {0} \n", data.year);
             Console.WriteLine("\t\t Population   %");
-            Console.WriteLine("\t Male  \t: {0} {1}", string.Format("{0:#,##0}", data.Males), string.Format("{0:0.00%}", data.MalePercetages));
-            Console.WriteLine("\t Female\t: {0} {1}", string.Format("{0:#,##0}", data.Females), string.Format("{0:0.00%}", data.FemalePercentage));
+            Console.WriteLine("\t Male  \t: {0} {1}", string.Format("{0:#,##0}", data.males), string.Format("{0:0.00%}", data.MalePercetages));
+            Console.WriteLine("\t Female\t: {0} {1}", string.Format("{0:#,##0}", data.females), string.Format("{0:0.00%}", data.FemalePercentage));
             Console.WriteLine("\t Total \t: {0} {1}", string.Format("{0:#,##0}", data.Total), string.Format("{0:0.00%}", data.MalePercetages + data.FemalePercentage));
 
             /*
@@ -411,6 +418,7 @@ namespace KYPopulationGrowth
 
         }
 
+        //Get the minimum year from data
         public static int GetMinYear(List<PopulationBySex> fileContents)
         {
             var year = (from x in fileContents
@@ -421,6 +429,7 @@ namespace KYPopulationGrowth
             return year.MinYear;
         }
 
+        //Get the maximum year from data
         public static int GetMaxYear(List<PopulationBySex> fileContents)
         {
             var year = (from x in fileContents
