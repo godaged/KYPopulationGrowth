@@ -7,4 +7,4 @@ Analyzing population composition by sex and the growth over the years.
 2. Can search population in a year
 3. Can add latest population data
 4. Can delete existing population data
-
+5. Can Edit existing population data

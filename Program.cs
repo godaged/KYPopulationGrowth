@@ -337,12 +337,19 @@ namespace KYPopulationGrowth
                 }
             }
             while (true)
-            {                
-                Console.Write("\t Enter Males : ");
+            {
+                var data = (from y in fileContents 
+                    where y.Year == outYear 
+                    select new { maleValue = y.Males, femaleValue = y.Females })
+                    .FirstOrDefault() ;
+
+                Console.WriteLine("\t Existing Male Value is {0}", data.maleValue);
+                Console.Write("\t Edit Males : ");
                 string males = Console.ReadLine();
                 int.TryParse(males, out outMales);
 
-                Console.Write("\t Enter Females : ");
+                Console.WriteLine("\t Existing Male Value is {0}", data.femaleValue);
+                Console.Write("\t Edit Females : ");
                 string females = Console.ReadLine();
                 int.TryParse(females, out outFemales);
 
