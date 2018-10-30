@@ -8,3 +8,5 @@ Analyzing population composition by sex and the growth over the years.
 3. Can add latest population data
 4. Can delete existing population data
 5. Can Edit existing population data
+6. Saves data as text file
+7. Saves data as CSV file

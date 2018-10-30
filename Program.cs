@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CsvHelper; // Added CSVHelper nuget package to write CSV file
 
 namespace KYPopulationGrowth
 {
@@ -100,7 +101,15 @@ namespace KYPopulationGrowth
                     {
                         //option = 7 => Save data to a file
                         Console.WriteLine("\n\t {0}\n", saveLatestData);
-                        WriteToFile(fileContents);
+                        int fileType = getFileTypeToWrite();
+                        if (fileType == 1)
+                        {
+                            WriteToTextFile(fileContents);
+                        }
+                        if (fileType == 2)
+                        {
+                            WriteToCSVFile(fileContents);
+                        }
                     }
                     else if (option == 8)
                     {
@@ -305,7 +314,7 @@ namespace KYPopulationGrowth
             
         }
 
-        /*-----------------------------------------------------------------------*/
+
         public static void UpdateData(List<PopulationBySex> fileContents)
         {
             var population = new PopulationBySex();
@@ -376,7 +385,7 @@ namespace KYPopulationGrowth
             Console.WriteLine("\n\tPopulation data updated with following values \n\t Year : {0} \n\t Males : {1} \n\t Females : {2}", outYear, outMales, outFemales);
 
         }
-        /*-----------------------------------------------------------------------*/
+
 
         //Search for population data for a specific year
         public static void FindData(List<PopulationBySex> fileContents)
@@ -439,7 +448,8 @@ namespace KYPopulationGrowth
         }
 
         //Write population data to the file
-        public static void WriteToFile(List<PopulationBySex> fileContents)
+        
+        public static void WriteToTextFile(List<PopulationBySex> fileContents)
         {
             using (var writer = new StreamWriter("Population.txt"))
             {
@@ -450,18 +460,17 @@ namespace KYPopulationGrowth
                 }
             }
         }
+        
 
-        //public static void UpdateData(List<PopulationBySex> fileContents)
-        //{
-        //    using (var writer = new StreamWriter("Population.txt"))
-        //    {
-        //        writer.WriteLine("Year,Males,Females,Total");
-        //        foreach (var item in fileContents)
-        //        {
-        //            writer.WriteLine(item.Year + "," + item.Males + "," + item.Females + "," + item.getTotal());
-        //        }
-        //    }
-        //}
+        public static void WriteToCSVFile(List<PopulationBySex> fileContents)
+        {
+            var data = from p in fileContents select new { p.Year, p.Males, p.Females, Total = p.getTotal() };
+            using (var writer = new StreamWriter("PopulationCSV.csv"))
+            using (var csv = new CsvWriter(writer))
+            {
+                    csv.WriteRecords(data);
+            }
+        }
 
         //Delete selected data by year
         public static void DeleteData(List<PopulationBySex> fileContents)
@@ -506,6 +515,38 @@ namespace KYPopulationGrowth
 
             }
 
+        }
+
+        public static int getFileTypeToWrite()
+        {
+            int fileType;
+            string option = "";
+            while (true)
+            {
+                Console.WriteLine("\t Select FileType to save");
+                Console.WriteLine("\t\t1. Text File");
+                Console.WriteLine("\t\t2. CSV File");
+                Console.WriteLine("\t {0} ", option);
+                Console.Write("\t Select 1 or 2 : ");
+                string ft = Console.ReadLine();
+                if (int.TryParse(ft, out fileType))
+                {
+                    if (fileType == 1 || fileType == 2)
+                    {
+                        return fileType;
+                    }
+                    else
+                    {
+                        //Console.WriteLine("\t Select 1 or 2");
+                        option = ft +" is Invalid Selection, ";
+                    }
+                }
+                else
+                {
+                    option = ft + " is Invalid Selection, ";
+                    //Console.WriteLine("\t Select 1 or 2");
+                }
+            }
         }
 
         //Get the minimum year from data
