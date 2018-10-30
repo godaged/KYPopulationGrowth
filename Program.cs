@@ -40,7 +40,7 @@ namespace KYPopulationGrowth
             //Start Menu, IF option Q selected, it breaks the loop
             while (true)
             {
-                Console.WriteLine("\n\tKeyntucky Population By Sex Since 1990 \n");
+                Console.WriteLine("\n\tKentucky Population By Sex Since 1990 \n");
                 Console.WriteLine("\t  1. Display {0}", fileLocation);
                 Console.WriteLine("\t  2. Display {0}", rawDataDisplay);
                 Console.WriteLine("\t  3. Display {0}", dataDisplayPercentages);
