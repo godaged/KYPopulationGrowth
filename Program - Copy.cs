@@ -9,12 +9,10 @@ namespace KYPopulationGrowth
     class Program
     {
         //Name of the data file
-        private static string file;
-        private static bool readFile = false;
+        const string file = "Population.txt";
 
         static void Main(string[] args)
-        {            
-            List<PopulationBySex> fileContents = new List<PopulationBySex>();
+        {
             //resize the console window
             ConsoleWindow.SetSize();
 
@@ -26,7 +24,7 @@ namespace KYPopulationGrowth
 
             
             //Menu items
-            //string fileLocation = "Data File Location ";
+            string fileLocation = "Data File Location ";
             string rawDataDisplay = "Population Numbers By Sex in Kentucky";
             string dataDisplayPercentages = "Population By Sex Percentages";
             string dataDisplayChanges = "Population Data Increase Over each year";
@@ -36,16 +34,15 @@ namespace KYPopulationGrowth
             string deleteSelectedData = "Delete Population Data in a Specific Year";
 
             //Get the data file path and file name
-            //var fileName = getFileName(file);
+            var fileName = getFileName(file);
             //Read data from file
-            //var fileContents = ReadData(fileName);
+            var fileContents = ReadData(fileName);
 
             //Start Menu, IF option Q selected, it breaks the loop
             while (true)
             {
                 Console.WriteLine("\n\tKentucky Population By Sex Since 1990 \n");
-                Console.WriteLine("\t  1. Select a File to read data");
-                //Console.WriteLine("\t  1. Display {0}", fileLocation);
+                Console.WriteLine("\t  1. Display {0}", fileLocation);
                 Console.WriteLine("\t  2. Display {0}", rawDataDisplay);
                 Console.WriteLine("\t  3. Display {0}", dataDisplayPercentages);
                 Console.WriteLine("\t  4. Display {0}", dataDisplayChanges);
@@ -66,94 +63,68 @@ namespace KYPopulationGrowth
                     if (option == 1)
                     {
                         //option = 1 => file location
-                        readFile = true;
-                        Console.WriteLine("\n\tSelect a file to read from below");
-                        displayFileName();
-                        int fileType = getFileTypeToRead();
+                        Console.WriteLine("\n\t  {0}", fileLocation);
+                        Console.WriteLine("\n\t File Located at \n\t   {0}", getFileName(file));
+                    }
+                    else if (option == 2)
+                    {
+                        //option = 2 => display data read from file
+                        Console.WriteLine("\n\t {0}\n", rawDataDisplay);
+                        DisplayData(fileContents);
+                    }
+
+                    else if (option == 3)
+                    {
+                        //option = 3 => display data with percentage calculated
+                        Console.WriteLine("\n\t {0}\n", dataDisplayPercentages);
+                        DisplayPercentages(fileContents);
+                    }
+                    else if (option == 4)
+                    {
+                        //option = 4 => display raw data percentage changed over year
+                        Console.WriteLine("\n\t {0}\n", dataDisplayChanges);
+                        DisplayIncrease(fileContents);
+                    }
+                    else if (option == 5)
+                    {
+                        //option = 5 => display data in a user selected year
+                        Console.WriteLine("\n\t {0}\n", dataInSelectedYeaR);
+                        FindData(fileContents);
+                    }
+                    else if (option == 6)
+                    {
+                        //option = 6 => Add latest population data 
+                        Console.WriteLine("\n\t {0}\n", addLatestData);
+                        AddLatestData(fileContents);
+                    }
+                    else if (option == 7)
+                    {
+                        //option = 7 => Save data to a file
+                        Console.WriteLine("\n\t {0}\n", saveLatestData);
+                        int fileType = getFileTypeToWrite();
                         if (fileType == 1)
                         {
-                            file = "Population.csv";                            
+                            WriteToTextFile(fileContents);
                         }
                         if (fileType == 2)
                         {
-                            file = "Population.txt";
+                            WriteToCSVFile(fileContents);
                         }
-                        
-                        //Get the data file path and file name
-                        var fileName = getFileName(file);
-                        //Read data from file
-                        fileContents = ReadData(fileName);
-                        Console.WriteLine("\t Read Data from {0} file", file);
                     }
-                    if (readFile)
+                    else if (option == 8)
                     {
-                        if (option == 2)
-                        {
-                            //option = 2 => display data read from file
-                            Console.WriteLine("\n\t {0}\n", rawDataDisplay);
-                            DisplayData(fileContents);
-                        }
-
-                        else if (option == 3)
-                        {
-                            //option = 3 => display data with percentage calculated
-                            Console.WriteLine("\n\t {0}\n", dataDisplayPercentages);
-                            DisplayPercentages(fileContents);
-                        }
-                        else if (option == 4)
-                        {
-                            //option = 4 => display raw data percentage changed over year
-                            Console.WriteLine("\n\t {0}\n", dataDisplayChanges);
-                            DisplayIncrease(fileContents);
-                        }
-                        else if (option == 5)
-                        {
-                            //option = 5 => display data in a user selected year
-                            Console.WriteLine("\n\t {0}\n", dataInSelectedYeaR);
-                            FindData(fileContents);
-                        }
-                        else if (option == 6)
-                        {
-                            //option = 6 => Add latest population data 
-                            Console.WriteLine("\n\t {0}\n", addLatestData);
-                            AddLatestData(fileContents);
-                        }
-                        else if (option == 7)
-                        {
-                            //option = 7 => Save data to a file
-                            Console.WriteLine("\n\t {0}\n", saveLatestData);
-                            int fileType = getFileTypeToWrite();
-                            if (fileType == 1)
-                            {
-                                WriteToTextFile(fileContents);
-                            }
-                            if (fileType == 2)
-                            {
-                                WriteToCSVFile(fileContents);
-                            }
-                        }
-                        else if (option == 8)
-                        {
-                            //option = 8 => delete selected data by year
-                            Console.WriteLine("\n\t {0}\n", deleteSelectedData);
-                            DeleteData(fileContents);
-                        }
-                        else if (option == 9)
-                        {
-                            Console.WriteLine("\n\tUpdate {0}\n", dataInSelectedYeaR);
-                            UpdateData(fileContents);
-                        }
-                        else
-                        {
-                            if (!readFile)
-                            {
-                                Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" through \"9\" or \"Q\" to quit", getOption);
-                            }
-                        }
+                        //option = 8 => delete selected data by year
+                        Console.WriteLine("\n\t {0}\n", deleteSelectedData);
+                        DeleteData(fileContents);
+                    }
+                    else if(option == 9)
+                    {
+                        Console.WriteLine("\n\tUpdate {0}\n", dataInSelectedYeaR);
+                        UpdateData(fileContents);
                     }
                     else
                     {
-                        Console.WriteLine("\n \tYou must select Option \"1\" to read data to before select option \"{0}\" ", option);
+                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" through \"9\" or \"Q\" to quit", getOption);
                     }
                 }
                 else
@@ -170,10 +141,9 @@ namespace KYPopulationGrowth
                     else
                     {
                         //user entered bad option or try to hack the app :)
-                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" to read data or \"Q\" to quit", getOption);
+                        Console.WriteLine("\n \tYou select \"{0}\" is not an option, please select \"1\" through \"9\" or \"Q\" to quit", getOption);
                     }
                 }
-                
                 Console.Write("\n \tPress Enter to Continue...");
                 Console.ReadKey();
                 Console.Clear();
@@ -189,23 +159,6 @@ namespace KYPopulationGrowth
             DirectoryInfo directory = new DirectoryInfo(currentDirectory);
             //set path and file name and return it
             return Path.Combine(directory.FullName, file);
-
-        }
-
-        public static void displayFileName()
-        {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            DirectoryInfo directory = new DirectoryInfo(currentDirectory);
-            string[] entries = Directory.GetFileSystemEntries(directory.FullName, "*.*");
-            int number = 1;
-            for(int i = 0; i < entries.Length; i++)
-            {
-                if (entries[i].Contains(".txt") || entries[i].Contains(".csv"))
-                {
-                    Console.WriteLine("\t  {0}. " + entries[i], number);
-                    number++;
-                }
-            }
         }
 
         //Read data from file
@@ -562,35 +515,6 @@ namespace KYPopulationGrowth
 
             }
 
-        }
-        public static int getFileTypeToRead()
-        {
-            int fileType;
-            string option = "";
-            while (true)
-            {
-                //Console.WriteLine("\t Select File to read");
-                //Console.WriteLine("\t\t1. Population.txt");
-                //Console.WriteLine("\t\t2. Population.csv");
-                Console.WriteLine("\t {0} ", option);
-                Console.Write("\t Select 1 = .csv or 2 = .txt : ");
-                string ft = Console.ReadLine();
-                if (int.TryParse(ft, out fileType))
-                {
-                    if (fileType == 1 || fileType == 2)
-                    {
-                        return fileType;
-                    }
-                    else
-                    {
-                        option = ft + " is Invalid Selection, ";
-                    }
-                }
-                else
-                {
-                    option = ft + " is Invalid Selection, ";
-                }
-            }
         }
 
         public static int getFileTypeToWrite()
