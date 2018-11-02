@@ -656,52 +656,49 @@ namespace KYPopulationGrowth
             //Console.ReadKey();
 
             Console.WriteLine("");
-            Console.WriteLine("    &&       && &&&&&& &&       &&&&&   &&&&&   &&&&   &&&& &&&&&&   ");
-            Console.WriteLine("    &&       && &&     &&      &&      &&   &&  && && && && &&       ");
-            Console.WriteLine("    &&  &&&  && &&&&&& &&     &&      &&     && &&  &&&  && &&&&&&   ");
-            Console.WriteLine("    && && && && &&     &&      &&      &&   &&  &&       && &&       ");
-            Console.WriteLine("    &&&&   &&&& &&&&&& &&&&&&   &&&&&   &&&&&   &&       && &&&&&&   ");
-            Console.WriteLine("  ");
-            Console.WriteLine("                                          &&                          ");
-            Console.WriteLine("                                          &&                          ");
-            Console.WriteLine("             $$   &&&&&   &&&&&     &&&&& &&  &&&&&&  $$              ");
-            Console.WriteLine("           $$    &&      &&   &&   &&   &&&& &&    &&   $$            ");
-            Console.WriteLine("         <$     &&      &&     && &&     &&& &&&&&&&&     $>          ");
-            Console.WriteLine("           $$    &&      &&   &&   &&   &&&& &&         $$            ");
-            Console.WriteLine("             $$   &&&&&   &&&&&     &&&&& &&  &&&&&&  $$              ");
-            Console.WriteLine("  ");
-            Console.WriteLine("    &&       &&&&&   &&      && &&  &&&&&  &       &  && &&     &&&&&& ");
-            Console.WriteLine("    &&      &&   &&  &&      && && &&      &&     &&  && &&     &&     ");
-            Console.WriteLine("    &&     &&     && &&      && &&  &&&&    &&   &&   && &&     &&&&&& ");
-            Console.WriteLine("    &&      &&   &&   &&    &&  &&     &&    && &&    && &&     &&     ");
-            Console.WriteLine("    &&&&&&   &&&&&     &&&&&&   && &&&&&      &&&     && &&&&&& &&&&&& ");
-
-            Console.WriteLine("          ");
+            Console.WriteLine("");
+            Console.WriteLine(@"                _____         ____   _____             _____   ");
+            Console.WriteLine(@"       |      ||      |      /      /     \  |\    /| |        ");
+            Console.WriteLine(@"       |  /\  ||_____ |      |      |      | | \  / | |_____   ");
+            Console.WriteLine(@"       | /  \ ||      |      |      |      | |  \/  | |        ");
+            Console.WriteLine(@"       |/    \||_____ |_____ \____  \_____/  |      | |_____   ");
+            Console.WriteLine(" ");                                                            
+            Console.WriteLine(@"                                       |                      ");
+            Console.WriteLine(@"                    ____  ____    ____ |  _____               ");
+            Console.WriteLine(@"               /   /     /    \  /    \| /     \   \          ");
+            Console.WriteLine(@"              /    |     |     | |     | |_____/    \         ");
+            Console.WriteLine(@"              \    |     |     | |     | |          /         ");
+            Console.WriteLine(@"               \   \____ \____/  \____/| \_____/   /          ");
+            Console.WriteLine(" ");     
+            Console.WriteLine(@"               ____              ____                    _____ ");
+            Console.WriteLine(@"       |      /    \  |     | | /     \      / | |      |      ");
+            Console.WriteLine(@"       |      |     | |     | | \___   \    /  | |      |_____ ");
+            Console.WriteLine(@"       |      |     | |     | |     \   \  /   | |      |      ");
+            Console.WriteLine(@"       |_____ \____/   \___/  | ____/    \/    | |_____ |_____ ");
+            Console.WriteLine("");    
         }
         public static void DrawExit()
         {
             Console.WriteLine("");
-            Console.WriteLine("   $$$$$$$$ $$    $$   $$$   $$$   $$ $$  $$   $$    $$   &&&&&   &&      &&     ");
-            Console.WriteLine("      $$    $$    $$  $$ $$  $$$$  $$ $$ $$     $$  $$   &&   &&  &&      &&     ");
-            Console.WriteLine("      $$    $$$$$$$$ $$$$$$$ $$ $$ $$ $$$$       $$$$   &&     && &&      &&     ");
-            Console.WriteLine("      $$    $$    $$ $$   $$ $$  $$$$ $$ $$       $$     &&   &&   &&    &&     ");
-            Console.WriteLine("      $$    $$    $$ $$   $$ $$   $$$ $$  $$      $$      &&&&&     &&&&&&      ");
-            Console.WriteLine("    ");
-            Console.WriteLine("                                            &&                          ");
-            Console.WriteLine("                                            &&                          ");
-            Console.WriteLine("               $$   &&&&&   &&&&&     &&&&& &&  &&&&&&  $$              ");
-            Console.WriteLine("             $$    &&      &&   &&   &&   &&&& &&    &&   $$            ");
-            Console.WriteLine("           <$     &&      &&     && &&     &&& &&&&&&&&     $>          ");
-            Console.WriteLine("             $$    &&      &&   &&   &&   &&&& &&         $$            ");
-            Console.WriteLine("               $$   &&&&&   &&&&&     &&&&& &&  &&&&&&  $$              ");
-            Console.WriteLine("    ");
-            Console.WriteLine("      &&       &&&&&   &&      && &&  &&&&& &&       && && &&     &&&&&& ");
-            Console.WriteLine("      &&      &&   &&  &&      && && &&      &&     &&  && &&     &&     ");
-            Console.WriteLine("      &&     &&     && &&      && &&  &&&&    &&   &&   && &&     &&&&&& ");
-            Console.WriteLine("      &&      &&   &&   &&    &&  &&     &&    && &&    && &&     &&     ");
-            Console.WriteLine("      &&&&&&   &&&&&     &&&&&&   && &&&&&      &&&     && &&&&&& &&&&&& ");
-
-            Console.WriteLine("          ");
+            Console.WriteLine(@"     _______                                      ____           ");
+            Console.WriteLine(@"        |    |    |   /\   |\   | |   /   \    / /    \  |     | ");
+            Console.WriteLine(@"        |    |____|  /__\  | \  | |__/     \__/  |     | |     | ");
+            Console.WriteLine(@"        |    |    | |    | |  \ | |  \       /   |     | |     | ");
+            Console.WriteLine(@"        |    |    | |    | |   \| |   \     /    \____/   \___/  ");
+            Console.WriteLine(" ");
+            Console.WriteLine(@"                                        |                      ");
+            Console.WriteLine(@"                     ____  ____    ____ |  _____               ");
+            Console.WriteLine(@"                /   /     /    \  /    \| /     \   \          ");
+            Console.WriteLine(@"               /    |     |     | |     | |_____/    \         ");
+            Console.WriteLine(@"               \    |     |     | |     | |          /         ");
+            Console.WriteLine(@"                \   \____ \____/  \____/| \_____/   /          ");
+            Console.WriteLine(" ");    
+            Console.WriteLine(@"                ____              ____                    _____  ");
+            Console.WriteLine(@"        |      /    \  |     | | /      |    |  | |      |       ");
+            Console.WriteLine(@"        |      |     | |     | | \___   \    /  | |      |_____  ");
+            Console.WriteLine(@"        |      |     | |     | |     \   \  /   | |      |       ");
+            Console.WriteLine(@"        |_____ \____/   \___/  | ____/    \/    | |_____ |_____  ");
+            Console.WriteLine("");
             Console.ResetColor();
         }
     }
