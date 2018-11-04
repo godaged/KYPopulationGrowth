@@ -26,5 +26,55 @@ namespace KYPopulationGrowth
             //resize the Console window to be with half of the screen and full height
             Console.SetWindowSize(cw / 2, ch);
         }
+
+        public static void DrawWelcome()
+        {
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            
+            //Console.Write("Press any key to continue");
+            //Console.ReadKey();
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine(@"                _____         ____   _____             _____   ");
+            Console.WriteLine(@"       |      ||      |      /      /     \  |\    /| |        ");
+            Console.WriteLine(@"       |  /\  ||_____ |      |      |      | | \  / | |_____   ");
+            Console.WriteLine(@"       | /  \ ||      |      |      |      | |  \/  | |        ");
+            Console.WriteLine(@"       |/    \||_____ |_____ \____  \_____/  |      | |_____   ");
+            Console.WriteLine(" ");
+            DrawCodeLouisville();
+        }
+        public static void DrawExit()
+        {
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("");
+            Console.WriteLine(@"     _______                                      ____           ");
+            Console.WriteLine(@"        |    |    |   /\   |\   | |   /   \    / /    \  |     | ");
+            Console.WriteLine(@"        |    |____|  /__\  | \  | |__/     \__/  |     | |     | ");
+            Console.WriteLine(@"        |    |    | |    | |  \ | |  \       /   |     | |     | ");
+            Console.WriteLine(@"        |    |    | |    | |   \| |   \     /    \____/   \___/  ");
+            Console.WriteLine(" ");
+            DrawCodeLouisville();
+        }
+        public static void DrawCodeLouisville()
+        {
+            Console.WriteLine(@"                                       |                      ");
+            Console.WriteLine(@"                    ____  ____    ____ |  _____               ");
+            Console.WriteLine(@"               /   /     /    \  /    \| /     \   \          ");
+            Console.WriteLine(@"              /    |     |     | |     | |_____/    \         ");
+            Console.WriteLine(@"              \    |     |     | |     | |          /         ");
+            Console.WriteLine(@"               \   \____ \____/  \____/| \_____/   /          ");
+            Console.WriteLine(" ");
+            Console.WriteLine(@"               ____              ____                    _____ ");
+            Console.WriteLine(@"       |      /    \  |     | | /     \      / | |      |      ");
+            Console.WriteLine(@"       |      |     | |     | | \___   \    /  | |      |_____ ");
+            Console.WriteLine(@"       |      |     | |     | |     \   \  /   | |      |      ");
+            Console.WriteLine(@"       |_____ \____/   \___/  | ____/    \/    | |_____ |_____ ");
+            Console.WriteLine("");
+        }
     }
 }

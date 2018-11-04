@@ -1,31 +1,27 @@
 ﻿namespace KYPopulationGrowth
 {
-    public class PopulationBySex
+    public class KYPopulationBySex : USPopulation
     {
-        public int Year { get; set; }
-        public int Males { get; set; }
-        public int Females { get; set; }
-
         //calculate total population for each year
-        public int getTotal()
+        public override int getTotal()
         {
             return Males + Females;
         }
 
         //calculate population Percentage for each year for males
-        public double GetMalePercent()
+        public override double GetMalePercent()
         {
             return (((double)Males / getTotal()));
         }
 
         //calculate population Percentage for each year for females
-        public double GetFemalePercent()
+        public override double GetFemalePercent()
         {
             return (((double)Females / getTotal()));
         }
 
         //Display data
-        public string displayRawData()
+        public override string displayRawData()
         {
             return "\t" + Year + "\t" +
                 string.Format("{0:#,##0}", Males) + "\t" +
@@ -34,7 +30,7 @@
         }
 
         //display calculated data
-        public string displayPercentages()
+        public override string displayPercentages()
         {
             return "\t" + Year.ToString() + "\t" +
                 string.Format("{0:#,##0}", Males) + "\t" +

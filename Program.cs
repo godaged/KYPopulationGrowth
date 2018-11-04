@@ -13,15 +13,17 @@ namespace KYPopulationGrowth
         private static bool readFile = false;
 
         static void Main(string[] args)
-        {            
-            List<PopulationBySex> fileContents = new List<PopulationBySex>();
+        {
+            Console.Title = "KY Population By Sex - Code Louisville C# Project By Dhanapapa Godage";
+            List<KYPopulationBySex> fileContents = new List<KYPopulationBySex>();
             //resize the console window
             ConsoleWindow.SetSize();
 
             //Welcome message
-            DrawWelcome();
-            Console.Write("Press Any Key to go to MENU");
+            ConsoleWindow.DrawWelcome();
+            Console.Write("\tPress Any Key to go to MENU");
             Console.ReadKey();
+            //Console.ResetColor();
             Console.Clear();
 
             
@@ -125,11 +127,11 @@ namespace KYPopulationGrowth
                             int fileType = getFileTypeToWrite();
                             if (fileType == 1)
                             {
-                                WriteToTextFile(fileContents);
+                                WriteToCSVFile(fileContents);
                             }
                             if (fileType == 2)
                             {
-                                WriteToCSVFile(fileContents);
+                                WriteToTextFile(fileContents);
                             }
                         }
                         else if (option == 8)
@@ -162,9 +164,11 @@ namespace KYPopulationGrowth
                     {
                         //Quit from Console App
                         //Console.WriteLine("\n \tThank You and Have a nice day!");
-                        DrawExit();
+                        //Console.ResetColor();
+                        ConsoleWindow.DrawExit();
+                        Console.Write("\t");
                         Console.ReadKey();
-                        Console.ResetColor();
+                        
                         break;
                     }
                     else
@@ -209,10 +213,10 @@ namespace KYPopulationGrowth
         }
 
         //Read data from file
-        public static List<PopulationBySex> ReadData(string fileName)
+        public static List<KYPopulationBySex> ReadData(string fileName)
         {
             //create a new object using PopulationBySex class
-            var population = new List<PopulationBySex>();
+            var population = new List<KYPopulationBySex>();
             //reading data from file
             using (var sr = new StreamReader(fileName))
             {
@@ -223,7 +227,7 @@ namespace KYPopulationGrowth
                 while ((line = sr.ReadLine()) != null)
                 {
                     //Instantiate class populationBySex
-                    var populationBySex = new PopulationBySex();
+                    var populationBySex = new KYPopulationBySex();
                     string[] values = line.Split(',');
                     if (int.TryParse(values[0], out int year))
                     {
@@ -244,9 +248,9 @@ namespace KYPopulationGrowth
         }
 
         //get population 
-        public static List<PopulationBySex> GetPopulation(List<PopulationBySex> populations)
+        public static List<KYPopulationBySex> GetPopulation(List<KYPopulationBySex> populations)
         {
-            var population = new List<PopulationBySex>();
+            var population = new List<KYPopulationBySex>();
             foreach (var item in populations)
             {
                 population.Add(item);
@@ -255,7 +259,7 @@ namespace KYPopulationGrowth
         }
 
         //Display Raw data
-        public static void DisplayData(List<PopulationBySex> populations)
+        public static void DisplayData(List<KYPopulationBySex> populations)
         {
             var data = GetPopulation(populations);
             Console.WriteLine("\tYear \t Male \t\t Female \t Total");
@@ -266,7 +270,7 @@ namespace KYPopulationGrowth
         }
 
         //Display Percentages
-        public static void DisplayPercentages(List<PopulationBySex> fileContents)
+        public static void DisplayPercentages(List<KYPopulationBySex> fileContents)
         {
             var data = GetPopulation(fileContents);
             Console.WriteLine("\tYear\tMale Population  %\tFemale Population   % ");
@@ -277,7 +281,7 @@ namespace KYPopulationGrowth
         }
 
         //Display population changes over the previous year
-        public static void DisplayIncrease(List<PopulationBySex> fileContents)
+        public static void DisplayIncrease(List<KYPopulationBySex> fileContents)
         {
             var data = GetPopulation(fileContents);
             int malePreviousValue = 0;
@@ -318,9 +322,9 @@ namespace KYPopulationGrowth
         }
 
         //Add latest population data to missing years
-        public static void AddLatestData(List<PopulationBySex> fileContents)
+        public static void AddLatestData(List<KYPopulationBySex> fileContents)
         {
-            var population = new PopulationBySex();           
+            var population = new KYPopulationBySex();           
             int maxYear = GetMaxYear(fileContents);
 
             int year = maxYear + 1; 
@@ -362,9 +366,9 @@ namespace KYPopulationGrowth
         }
 
 
-        public static void UpdateData(List<PopulationBySex> fileContents)
+        public static void UpdateData(List<KYPopulationBySex> fileContents)
         {
-            var population = new PopulationBySex();
+            var population = new KYPopulationBySex();
             int minYear = GetMinYear(fileContents);
             int maxYear = GetMaxYear(fileContents);
             int outYear = 0;
@@ -435,7 +439,7 @@ namespace KYPopulationGrowth
 
 
         //Search for population data for a specific year
-        public static void FindData(List<PopulationBySex> fileContents)
+        public static void FindData(List<KYPopulationBySex> fileContents)
         {
             //Get Min and max year to limit search to existing data range only
             int minYear = GetMinYear(fileContents);
@@ -496,7 +500,7 @@ namespace KYPopulationGrowth
 
         //Write population data to the file
         
-        public static void WriteToTextFile(List<PopulationBySex> fileContents)
+        public static void WriteToTextFile(List<KYPopulationBySex> fileContents)
         {
             using (var writer = new StreamWriter("Population.txt"))
             {
@@ -509,10 +513,10 @@ namespace KYPopulationGrowth
         }
         
 
-        public static void WriteToCSVFile(List<PopulationBySex> fileContents)
+        public static void WriteToCSVFile(List<KYPopulationBySex> fileContents)
         {
             var data = from p in fileContents select new { p.Year, p.Males, p.Females, Total = p.getTotal() };
-            using (var writer = new StreamWriter("PopulationCSV.csv"))
+            using (var writer = new StreamWriter("Population.csv"))
             using (var csv = new CsvWriter(writer))
             {
                     csv.WriteRecords(data);
@@ -520,7 +524,7 @@ namespace KYPopulationGrowth
         }
 
         //Delete selected data by year
-        public static void DeleteData(List<PopulationBySex> fileContents)
+        public static void DeleteData(List<KYPopulationBySex> fileContents)
         {
             int minYear = GetMinYear(fileContents);
             int maxYear = GetMaxYear(fileContents);
@@ -573,7 +577,7 @@ namespace KYPopulationGrowth
                 //Console.WriteLine("\t\t1. Population.txt");
                 //Console.WriteLine("\t\t2. Population.csv");
                 Console.WriteLine("\t {0} ", option);
-                Console.Write("\t Select 1 = .csv or 2 = .txt : ");
+                Console.Write("\t Select \n\t  1 = Population.csv OR \n\t  2 = Population.txt : ");
                 string ft = Console.ReadLine();
                 if (int.TryParse(ft, out fileType))
                 {
@@ -600,8 +604,8 @@ namespace KYPopulationGrowth
             while (true)
             {
                 Console.WriteLine("\t Select FileType to save");
-                Console.WriteLine("\t\t1. Text File");
-                Console.WriteLine("\t\t2. CSV File");
+                Console.WriteLine("\t\t1. CSV File");
+                Console.WriteLine("\t\t2. Text File");
                 Console.WriteLine("\t {0} ", option);
                 Console.Write("\t Select 1 or 2 : ");
                 string ft = Console.ReadLine();
@@ -626,7 +630,7 @@ namespace KYPopulationGrowth
         }
 
         //Get the minimum year from data
-        public static int GetMinYear(List<PopulationBySex> fileContents)
+        public static int GetMinYear(List<KYPopulationBySex> fileContents)
         {
             var year = (from x in fileContents
                            orderby x.Year
@@ -637,7 +641,7 @@ namespace KYPopulationGrowth
         }
 
         //Get the maximum year from data
-        public static int GetMaxYear(List<PopulationBySex> fileContents)
+        public static int GetMaxYear(List<KYPopulationBySex> fileContents)
         {
             var year = (from x in fileContents
                            orderby x.Year descending
@@ -647,59 +651,6 @@ namespace KYPopulationGrowth
             return year.MaxYear;
         }
 
-        public static void DrawWelcome()
-        {
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            //Console.Write("Press any key to continue");
-            //Console.ReadKey();
 
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine(@"                _____         ____   _____             _____   ");
-            Console.WriteLine(@"       |      ||      |      /      /     \  |\    /| |        ");
-            Console.WriteLine(@"       |  /\  ||_____ |      |      |      | | \  / | |_____   ");
-            Console.WriteLine(@"       | /  \ ||      |      |      |      | |  \/  | |        ");
-            Console.WriteLine(@"       |/    \||_____ |_____ \____  \_____/  |      | |_____   ");
-            Console.WriteLine(" ");                                                            
-            Console.WriteLine(@"                                       |                      ");
-            Console.WriteLine(@"                    ____  ____    ____ |  _____               ");
-            Console.WriteLine(@"               /   /     /    \  /    \| /     \   \          ");
-            Console.WriteLine(@"              /    |     |     | |     | |_____/    \         ");
-            Console.WriteLine(@"              \    |     |     | |     | |          /         ");
-            Console.WriteLine(@"               \   \____ \____/  \____/| \_____/   /          ");
-            Console.WriteLine(" ");     
-            Console.WriteLine(@"               ____              ____                    _____ ");
-            Console.WriteLine(@"       |      /    \  |     | | /     \      / | |      |      ");
-            Console.WriteLine(@"       |      |     | |     | | \___   \    /  | |      |_____ ");
-            Console.WriteLine(@"       |      |     | |     | |     \   \  /   | |      |      ");
-            Console.WriteLine(@"       |_____ \____/   \___/  | ____/    \/    | |_____ |_____ ");
-            Console.WriteLine("");    
-        }
-        public static void DrawExit()
-        {
-            Console.WriteLine("");
-            Console.WriteLine(@"     _______                                      ____           ");
-            Console.WriteLine(@"        |    |    |   /\   |\   | |   /   \    / /    \  |     | ");
-            Console.WriteLine(@"        |    |____|  /__\  | \  | |__/     \__/  |     | |     | ");
-            Console.WriteLine(@"        |    |    | |    | |  \ | |  \       /   |     | |     | ");
-            Console.WriteLine(@"        |    |    | |    | |   \| |   \     /    \____/   \___/  ");
-            Console.WriteLine(" ");
-            Console.WriteLine(@"                                        |                      ");
-            Console.WriteLine(@"                     ____  ____    ____ |  _____               ");
-            Console.WriteLine(@"                /   /     /    \  /    \| /     \   \          ");
-            Console.WriteLine(@"               /    |     |     | |     | |_____/    \         ");
-            Console.WriteLine(@"               \    |     |     | |     | |          /         ");
-            Console.WriteLine(@"                \   \____ \____/  \____/| \_____/   /          ");
-            Console.WriteLine(" ");    
-            Console.WriteLine(@"                ____              ____                    _____  ");
-            Console.WriteLine(@"        |      /    \  |     | | /      |    |  | |      |       ");
-            Console.WriteLine(@"        |      |     | |     | | \___   \    /  | |      |_____  ");
-            Console.WriteLine(@"        |      |     | |     | |     \   \  /   | |      |       ");
-            Console.WriteLine(@"        |_____ \____/   \___/  | ____/    \/    | |_____ |_____  ");
-            Console.WriteLine("");
-            Console.ResetColor();
-        }
     }
 }
